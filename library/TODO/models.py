@@ -18,8 +18,8 @@ class Project(models.Model):
 class TODO(models.Model):
     STATES = (('To Do', 'to do',),
               ('Делается', 'in progress'), ('Сделано', 'done'))
-    project = models.OneToOneField(
-        Project, on_delete=models.CASCADE, verbose_name="Проект")
+    project = models.ManyToManyField(
+        Project, verbose_name="Проект")
     note = models.TextField(verbose_name="Текст заметки")
     author = models.OneToOneField(
         Author, on_delete=models.CASCADE, verbose_name="Автор заметки")
@@ -28,3 +28,4 @@ class TODO(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Обновлено")
     status = models.CharField(
         max_length=11, choices=STATES, default='todo', verbose_name="Статус")
+    mark_close = models.BooleanField(default=False)

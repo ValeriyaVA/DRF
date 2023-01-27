@@ -28,4 +28,5 @@ router.register('todo', TodoViewSet)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    # path('api/Author/<int:pk>/', AuthorModelViewSet.as_view()),
 ]
