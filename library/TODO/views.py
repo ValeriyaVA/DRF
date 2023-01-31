@@ -40,6 +40,7 @@ class TodoViewSet(ModelViewSet):
     filterset_fields = ['project']
 
     # переопределяем метод удаления заметок, в mark_close меняем статус на true
+
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         if instance.mark_close is False:

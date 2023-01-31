@@ -7,6 +7,8 @@ from rest_framework import mixins
 # модель Author: есть возможность просмотра списка и каждого пользователя в отдельности,
 # можно вносить изменения, нельзя удалять и создавать
 
+# mixins.CreateModelMixin,
+
 
 class AuthorModelViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, GenericViewSet):
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]

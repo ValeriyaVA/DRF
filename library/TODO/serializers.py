@@ -7,6 +7,13 @@ class ProjectSerializer(HyperlinkedModelSerializer):
         model = Project
         fields = '__all__'
 
+# class PostSerializer(serializers.ModelSerializer):
+#     tag = TagSerializer(read_only=True, many=True)
+
+#     class Meta:
+#         model = Post
+#         fields = ('tag', 'text',)
+
 
 class TodoSerializer(HyperlinkedModelSerializer):
     class Meta:
