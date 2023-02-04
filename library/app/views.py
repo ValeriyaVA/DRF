@@ -10,7 +10,7 @@ from rest_framework import mixins
 # mixins.CreateModelMixin,
 
 
-class AuthorModelViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, GenericViewSet):
+class AuthorModelViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin, mixins.UpdateModelMixin, GenericViewSet):
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
     queryset = Author.objects.all()
     serializer_class = AuthorModelSerializer
