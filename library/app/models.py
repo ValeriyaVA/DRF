@@ -9,6 +9,8 @@ class Author(models.Model):
     lastname = models.CharField(max_length=64)
     birthday_year = models.PositiveIntegerField()
     email = models.CharField(max_length=64, unique=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
 
     def __str__(self):
         return self.author_name
