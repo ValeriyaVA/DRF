@@ -37,7 +37,7 @@ schema_view = get_schema_view(openapi.Info(
 
 router = DefaultRouter()
 router.register('authors', AuthorModelViewSet)
-router.register('project', ProjectViewSet)
+router.register('projects', ProjectViewSet)
 router.register('todo', TodoViewSet)
 
 urlpatterns = [

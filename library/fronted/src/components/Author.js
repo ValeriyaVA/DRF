@@ -1,23 +1,25 @@
 import React from 'react'
 const AuthorItem = ({ author }) => {
     return (
-        <tr>
-            <td>
-                {author.author_name}
-            </td>
-            <td>
-                {author.firstname}
-            </td>
-            <td>
-                {author.lastname}
-            </td>
-            <td>
-                {author.birthday_year}
-            </td>
-            <td>
-                {author.email}
-            </td>
-        </tr>
+        <thead>
+            <tr>
+                <td>
+                    {author.author_name}
+                </td>
+                <td>
+                    {author.firstname}
+                </td>
+                <td>
+                    {author.lastname}
+                </td>
+                <td>
+                    {author.birthday_year}
+                </td>
+                <td>
+                    {author.email}
+                </td>
+            </tr>
+        </thead>
     )
 }
 

@@ -1,5 +1,6 @@
 from django.db import models
 from app.models import Author
+# from uuid import uuid4
 
 # создаём модели
 

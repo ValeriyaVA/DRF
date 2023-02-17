@@ -78,7 +78,7 @@ class App extends React.Component {
                     }
                 )
             }).catch(error => console.log(error))
-        axios.get('http://127.0.0.1:8000/api/project/', { headers })
+        axios.get('http://127.0.0.1:8000/api/projects/', { headers })
             .then(response => {
                 const projects = response.data.results
                 this.setState(
@@ -98,6 +98,21 @@ class App extends React.Component {
             }).catch(error => console.log(error))
     }
 
+
+    deleteProject(id) {
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:8000/api/projects/${id}`, { headers }).then(response => {
+            this.setState({ projects: this.state.projects.filter((project) => project.id !== id) })
+        }).catch(error => console.log(error))
+    }
+
+    deleteTodo(id) {
+        const headers = this.get_headers()
+        axios.delete(`http://127.0.0.1:8000/api/todos/${id}`, { headers }).then(response => {
+            this.setState({ todos: this.state.projects.filter((todo) => todo.id !== id) })
+        }).catch(error => console.log(error))
+    }
+
     componentDidMount() {
         this.get_token_from_storage()
         this.load_data()
@@ -109,31 +124,39 @@ class App extends React.Component {
                     <nav>
                         <ul>
                             <li>
-                                <Link to='/authors'>Authors</Link>
+                                <Link to='/authors'>Авторы</Link>
                             </li>
                             <li>
-                                <Link to='/projects'>Projects</Link>
+                                <Link to='/projects'>Проекты</Link>
                             </li>
                             <li>
-                                <Link to='/todos'>ToDos</Link>
+                                <Link to='/todos'>Заметки</Link>
                             </li>
                             <li>
                                 {this.is_authenticated() ? <button
-                                    onClick={() => this.logout()}>Logout</button> : <Link to='/login'>Login</Link>}
+                                    onClick={() => this.logout()}>Выйти</button> : <Link to='/login'>Зайти</Link>}
                             </li>
                         </ul>
                     </nav>
                     <Routes>
-                        <Route path='/authors' element={<AuthorList authors={this.state.authors} />} Route />
-                        <Route path='/projects' element={<ProjectList projects={this.state.projects} />} Route />
-                        <Route path='/todos' element={<TodoList todos={this.state.todos} />} Route />
+                        <Route exact path='/authors' element={<AuthorList authors={this.state.authors} />} Route />
+                        {/* <Route path='/projects' element={<ProjectList projects={this.state.projects} deleteProject={(id) => this.deleteProject(id)} />} Route /> */}
+                        <Route exact path='/todos' element={<TodoList todos={this.state.todos} deleteTodo={(id) => this.deleteTodo(id)} />} Route />
+                        {/* <Route path='/projects'>
+                            <Route index element={<ProjectList projects={this.state.projects}
+                                deleteProject={(projectId) => this.deleteProject(projectId)} />} Route />
+                            <Route path='project/:projectId' element={<ProjectTodoList projects={this.state.todos} />} Route />
+                        </Route> */}
+                        <Route path="/projects" >
+                            <Route index element={<ProjectList projects={this.state.projects} />} />
+                            <Route path=":projectId" element={<ProjectTodoList todos={this.state.todos} />} />
+                        </Route>
                         <Route element={NotFound404} Route />
-                        <Route path="/projects/:project_title" element={<ProjectTodoList todos={this.state.todos} />} Route />
-                        <Route path='/login' element={<LoginForm
+                        <Route exact path='/login' element={<LoginForm
                             get_token={(login, password) => this.get_token(login, password)} />} Route />
                     </Routes>
                 </BrowserRouter>
-            </div>
+            </div >
         )
     }
 }

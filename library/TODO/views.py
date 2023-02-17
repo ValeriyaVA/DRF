@@ -27,6 +27,11 @@ class ProjectViewSet(ModelViewSet):
     pagination_class = ProjectLimitOffsetPagination
     filterset_class = ProjectFilter
 
+    # def get_serializer_class(self):
+    #     if self.request.method in ['GET']:
+    #         return ProjectSerializerBase
+    #     return ProjectSerializer
+
 # модель ToDo: доступны все варианты запросов; при удалении не удалять ToDo, а
 # выставлять признак, что оно закрыто; добавить фильтрацию по проекту; для
 # постраничного вывода установить размер страницы 20

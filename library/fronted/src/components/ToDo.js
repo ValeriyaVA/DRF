@@ -1,60 +1,59 @@
 import React from 'react'
-const TodoItem = ({ todo }) => {
+const TodoItem = ({ todo, deleteTodo }) => {
     return (
-        <tr>
-            <td>
-                {todo.project}
-            </td>
-            <td>
-                {todo.note}
-            </td>
-            <td>
-                {todo.author}
-            </td>
-            <td>
-                {todo.created_at}
-            </td>
-            <td>
-                {todo.updated_at}
-            </td>
-            <td>
-                {todo.status}
-            </td>
-            <td>
-                {todo.mark_close}
-            </td>
-        </tr>
+        <thead>
+            <tr>
+                <td>
+                    {todo.project}
+                </td>
+                <td>
+                    {todo.note}
+                </td>
+                <td>
+                    {todo.author}
+                </td>
+                <td>
+                    {todo.created_at}
+                </td>
+                <td>
+                    {todo.updated_at}
+                </td>
+                <td>
+                    {todo.status}
+                </td>
+                <td><button onClick={() => deleteTodo(todo.id)} type='button'>Удалить заметку</button></td>
+            </tr>
+        </thead>
     )
 }
-const TodoList = ({ todos }) => {
+const TodoList = ({ todos, deleteTodo }) => {
     return (
         <table>
             <thead>
                 <tr>
                     <th>
-                        Project
+                        Проект
                     </th>
                     <th>
-                        Note
+                        Заметка
                     </th>
                     <th>
-                        Author
+                        Автор
                     </th>
                     <th>
-                        Created at
+                        Создано
                     </th>
                     <th>
-                        Updated at
+                        Обновлено
                     </th>
                     <th>
-                        Status
+                        Статус
                     </th>
-                    <th>
-                        Close
-                    </th>
+                    <th></th>
                 </tr>
             </thead>
-            {todos.map((todo) => <TodoItem todo={todo} />)}
+            {/* {todos.map((todo) => <TodoItem todo={todo} />)} */}
+            {todos.map((todo) => <TodoItem todo={todo} deleteTodo={deleteTodo} />)}
         </table>
     )
 }
