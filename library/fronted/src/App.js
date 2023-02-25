@@ -5,6 +5,8 @@ import axios from 'axios';
 import AuthorList from './components/Author.js';
 import ProjectList from './components/Projects.js';
 import TodoList from './components/ToDo.js';
+import ProjectForm from './components/ProjectForm';
+import TodoForm from './components/TodoForm';
 import ProjectTodoList from './components/ProjectTodos';
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import LoginForm from './components/Auth.js';
@@ -113,6 +115,29 @@ class App extends React.Component {
         }).catch(error => console.log(error))
     }
 
+
+    createProject(project_title, repolink, author) {
+        const headers = this.get_headers()
+        const data = { title: project_title, repolink: repolink, author: author }
+        axios.post(`http://127.0.0.1:8000/api/project/`, data, { headers }).then(response => {
+            let new_project = response.data
+            const author = this.state.authors.filter((author) => author.id === new_project.author)
+            new_project.author = author
+            this.setState({ projects: [...this.state.projects, new_project] })
+        }).catch(error => console.log(error))
+    }
+
+    createTodo(note, project) {
+        const headers = this.get_headers()
+        const data = { note: note, project: project }
+        axios.post(`http://127.0.0.1:8000/api/todo/`, data, { headers }).then(response => {
+            let new_todo = response.data.results
+            const project = this.state.projects.filter((project) => project.id === new_todo.project)
+            new_todo.project = project
+            this.setState({ todos: [...this.state.todos, new_todo] })
+        }).catch(error => console.log(error))
+    }
+
     componentDidMount() {
         this.get_token_from_storage()
         this.load_data()
@@ -142,15 +167,12 @@ class App extends React.Component {
                         <Route exact path='/authors' element={<AuthorList authors={this.state.authors} />} Route />
                         {/* <Route path='/projects' element={<ProjectList projects={this.state.projects} deleteProject={(id) => this.deleteProject(id)} />} Route /> */}
                         <Route exact path='/todos' element={<TodoList todos={this.state.todos} deleteTodo={(id) => this.deleteTodo(id)} />} Route />
-                        {/* <Route path='/projects'>
-                            <Route index element={<ProjectList projects={this.state.projects}
-                                deleteProject={(projectId) => this.deleteProject(projectId)} />} Route />
-                            <Route path='project/:projectId' element={<ProjectTodoList projects={this.state.todos} />} Route />
-                        </Route> */}
                         <Route path="/projects" >
                             <Route index element={<ProjectList projects={this.state.projects} />} />
-                            <Route path=":projectId" element={<ProjectTodoList todos={this.state.todos} />} />
+                            <Route path=":project_title" element={<ProjectTodoList todos={this.state.todos} />} />
                         </Route>
+                        <Route exact path='/projects/create' component={() => <ProjectForm users={this.state.users} createProject={(project_title, repolink, author) => this.createProject(project_title, repolink, author)} />} />
+                        <Route exact path='/todos/create' component={() => <TodoForm projects={this.state.projects} createTodo={(text, project) => this.createTodo(text, project)} />} />
                         <Route element={NotFound404} Route />
                         <Route exact path='/login' element={<LoginForm
                             get_token={(login, password) => this.get_token(login, password)} />} Route />

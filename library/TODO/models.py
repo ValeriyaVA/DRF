@@ -15,6 +15,9 @@ class Project(models.Model):
     def __str__(self):
         return self.project_title
 
+    def get_fields(self):
+        return [(field.name, field.value_to_string(self)) for field in Project.fields]
+
 
 class TODO(models.Model):
     STATES = (('To Do', 'to do',),
